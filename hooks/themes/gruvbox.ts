@@ -1,6 +1,6 @@
-import type { Skin } from '../skin'
+import { defineSkin } from '../skin'
 
-const skin: Skin = {
+const skin = defineSkin({
   name: 'gruvbox',
   label: 'Gruvbox',
   palette: {
@@ -22,6 +22,6 @@ const skin: Skin = {
   },
   spinner: ['Brewing', 'Roasting', 'Simmering', 'Toasting', 'Percolating', 'Kindling'],
   done: ['Brewed', 'Roasted', 'Toasted', 'Served'],
-}
+})
 
 export default skin

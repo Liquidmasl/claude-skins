@@ -1,6 +1,6 @@
-import type { Skin } from '../skin'
+import { defineSkin } from '../skin'
 
-const skin: Skin = {
+const skin = defineSkin({
   name: 'everforest',
   label: 'Everforest',
   palette: {
@@ -39,6 +39,6 @@ const skin: Skin = {
   },
   spinner: ['Foraging', 'Rooting', 'Sprouting', 'Hiking', 'Mossing', 'Branching'],
   done: ['Grown', 'Rooted', 'Foraged', 'Camped'],
-}
+})
 
 export default skin

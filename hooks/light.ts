@@ -3,7 +3,8 @@ import type { Palette, Skin } from './skin'
 
 // Every skin works on a light background too. A skin may carry its own light palette;
 // the rest are derived: body text goes near-black, bands go near-white, and each colour
-// is deepened until it reads on white.
+// is deepened until it reads on white. Reply text of its own keeps its hue, deepened
+// further, as body text it has to read like.
 
 const channels = (hex: string): [number, number, number] => [
   parseInt(hex.slice(1, 3), 16),
@@ -20,6 +21,7 @@ export const deepen = (hex: string, amount: number): string =>
 
 export function toLight(palette: Palette): Palette {
   const deep = (hex: string) => deepen(hex, 0.45)
+  const fg = '#1f1f1f'
 
   return {
     read: deep(palette.read),
@@ -30,7 +32,8 @@ export function toLight(palette: Palette): Palette {
     mcp: deep(palette.mcp),
     other: deep(palette.other),
     user: deep(palette.user),
-    fg: '#1f1f1f',
+    fg,
+    prose: palette.prose === palette.fg ? fg : deepen(palette.prose, 0.7),
     muted: '#6b6b6b',
     surface: '#ffffff',
     zebra: '#f2f2f2',

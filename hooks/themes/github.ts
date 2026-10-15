@@ -1,6 +1,6 @@
-import type { Skin } from '../skin'
+import { defineSkin } from '../skin'
 
-const skin: Skin = {
+const skin = defineSkin({
   name: 'github',
   label: 'GitHub',
   palette: {
@@ -39,6 +39,6 @@ const skin: Skin = {
   },
   spinner: ['Committing', 'Rebasing', 'Forking', 'Pushing', 'Cherry-picking', 'Stashing'],
   done: ['Merged', 'Pushed', 'Committed', 'Tagged'],
-}
+})
 
 export default skin

@@ -1,5 +1,6 @@
-// Every colour a skin names. `fg` is body text, `muted` secondary text, `surface` the
-// band behind a table header, `zebra` every other table row.
+// Every colour a skin names. `fg` is body text, `prose` Claude's reply text (`fg` when a
+// skin leaves it out), `muted` secondary text, `surface` the band behind a table header,
+// `zebra` every other table row.
 export type SkinSlot =
   | 'read'
   | 'write'
@@ -10,6 +11,7 @@ export type SkinSlot =
   | 'other'
   | 'user'
   | 'fg'
+  | 'prose'
   | 'muted'
   | 'surface'
   | 'zebra'

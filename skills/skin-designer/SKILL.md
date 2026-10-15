@@ -34,8 +34,10 @@ every change shows on screen the moment the call returns.
 
 - **One accent.** `user` paints the rail, the prompt marker and the spinner. Make it the colour the
   skin is about; leave everything else quieter.
-- **Readable text.** `fg` and `muted` sit on the person's terminal background, which is almost always
-  dark. Keep `muted` clearly readable: it carries commands, paths and timings.
+- **Readable text.** `fg`, `prose` and `muted` sit on the person's terminal background, which is almost
+  always dark. Keep `muted` clearly readable: it carries commands, paths and timings.
+- **Replies apart.** `prose` is Claude's reply text; left out, it follows `fg`, which also paints the
+  person's prompts. A step of hue or brightness off `fg` tells the two voices apart.
 - **Quiet bands.** `surface` and `zebra` are backgrounds behind table rows. Keep them one small step
   off a dark background, never bright, or tables turn into stripes.
 - **Kinds told apart.** `read`, `write`, `run`, `search`, `web` and `mcp` colour tool names. Give the

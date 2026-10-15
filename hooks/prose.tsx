@@ -16,7 +16,7 @@ const ALERTS: Record<AlertType, { title: string; slot: keyof Palette; unicode: s
 const glyphs = (look: Look): Glyphs =>
   look.prefs.icons === 'ascii' ? { mark: '-', done: '[x]', open: '[ ]' } : { mark: '•', done: '☑', open: '☐' }
 
-// The slot each highlighted kind of text takes from the skin.
+// The slot each highlighted kind of text takes from the skin; the rest is `prose`.
 const SLOTS: Partial<Record<RunStyle, keyof Palette>> = {
   code: 'search',
   number: 'user',
@@ -50,7 +50,7 @@ function runText(look: Look, run: Run) {
 
   return (
     <Text
-      color={slot === undefined ? palette.fg : palette[slot]}
+      color={slot === undefined ? palette.prose : palette[slot]}
       bold={run.style === 'bold'}
       italic={run.style === 'italic'}
       strikethrough={run.style === 'strike'}
@@ -84,7 +84,7 @@ function headingRow(look: Look, level: number, text: string) {
   const { palette } = look.skin
 
   return (
-    <Text color={level <= 2 ? palette.user : palette.fg} bold underline={level === 1}>
+    <Text color={level <= 2 ? palette.user : palette.prose} bold underline={level === 1}>
       {level <= 2 ? `${look.prefs.icons === 'ascii' ? '#' : '▍'} ${text}` : text}
     </Text>
   )
@@ -114,7 +114,7 @@ function taskRows(look: Look, items: readonly Task[]) {
       {items.map(item => (
         <Box flexDirection="row" paddingLeft={item.depth * 2}>
           <Text color={item.done ? palette.ok : palette.muted}>{`${item.done ? mark.done : mark.open} `}</Text>
-          <Text color={item.done ? palette.muted : palette.fg}>{item.text}</Text>
+          <Text color={item.done ? palette.muted : palette.prose}>{item.text}</Text>
         </Box>
       ))}
       <Text color={palette.muted}>{`${done}/${items.length} done`}</Text>

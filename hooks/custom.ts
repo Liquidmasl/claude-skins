@@ -1,10 +1,11 @@
 import type { CustomSkin, SkinSlot } from '../types'
-import type { Skin } from './skin'
+import type { Palette, Skin } from './skin'
 import { SKINS } from './themes'
 
 export const SLOTS: readonly SkinSlot[] = [
   'user',
   'fg',
+  'prose',
   'muted',
   'surface',
   'zebra',
@@ -23,7 +24,8 @@ export const SLOTS: readonly SkinSlot[] = [
 // What each slot paints, for the settings pane and the agent's tool.
 export const SLOT_HELP: Readonly<Record<SkinSlot, string>> = {
   user: 'accent: the rail, your prompt marker, the spinner',
-  fg: 'body text',
+  fg: 'body text: your prompts, tables, opened tool rows',
+  prose: 'reply text, what Claude writes; follows fg until it is painted',
   muted: 'secondary text: commands, paths, timings',
   surface: 'band behind a table header',
   zebra: 'every other table row; keep it a step off the background',
@@ -53,6 +55,10 @@ export const skinNames = (custom: Customs): string[] => [
   ...Object.keys(custom).filter(name => builtIn(name) === undefined),
 ]
 
+// A base's prose that follows its fg follows a made skin's fg too, until prose is painted.
+const proseOf = (base: Palette, made: CustomSkin['palette']): string =>
+  made.prose ?? (base.prose === base.fg ? (made.fg ?? base.fg) : base.prose)
+
 // A made skin is its base with the slots and words it changed laid over it.
 export function resolveSkin(name: string, custom: Customs): Skin | undefined {
   const own = builtIn(name)
@@ -71,7 +77,7 @@ export function resolveSkin(name: string, custom: Customs): Skin | undefined {
   return {
     name: made.name,
     label: made.label,
-    palette: { ...base.palette, ...made.palette },
+    palette: { ...base.palette, ...made.palette, prose: proseOf(base.palette, made.palette) },
     spinner: made.spinner.length > 0 ? made.spinner : base.spinner,
     done: made.done.length > 0 ? made.done : base.done,
   }

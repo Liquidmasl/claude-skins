@@ -28,6 +28,7 @@ import { chartArt } from '../hooks/chart-art'
 import { blockBar, dotRule } from '../hooks/chart-rows'
 import { seriesColor } from '../hooks/svg-chart-kit'
 import rosePine from '../hooks/themes/rose-pine'
+import type { CustomSkin } from '../types'
 
 const NAMES = ['tokyo-night', 'dracula', 'nord']
 
@@ -351,6 +352,24 @@ test('a light palette is derived with dark text, light bands and deepened colour
   expect(deepen('#ffffff', 0.5)).toBe('#808080')
   expect(isLightTheme('light-daltonized')).toBe(true)
   expect(isLightTheme('dark')).toBe(false)
+})
+
+test('prose follows fg until a skin names its own, in a made skin and on a light background too', async () => {
+  for (const skin of SKINS) {
+    expect(skin.palette.prose).toBe(skin.palette.fg)
+    expect(skin.light?.prose ?? skin.palette.prose).toBe(skin.light?.fg ?? skin.palette.fg)
+  }
+
+  const made = (palette: Record<string, string>) =>
+    resolveSkin('mine', { mine: buildCustom({ name: 'mine', base: 'nord', palette }, undefined) as CustomSkin })?.palette
+  const nord = resolveSkin('nord', {})?.palette
+
+  expect(made({ fg: '#111111' })?.prose).toBe('#111111')
+  expect(made({ prose: '#222222' })?.prose).toBe('#222222')
+  expect(made({ prose: '#222222' })?.fg).toBe(nord?.fg)
+  expect(made({ fg: '#111111', prose: '#222222' })?.prose).toBe('#222222')
+  expect(toLight(tokyoNight.palette).prose).toBe('#1f1f1f')
+  expect(toLight({ ...tokyoNight.palette, prose: '#ff9e64' }).prose).toBe(deepen('#ff9e64', 0.7))
 })
 
 test('SKINS_THEME wins, then the theme, then the terminal and the system for auto', async () => {

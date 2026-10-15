@@ -15,7 +15,8 @@ export const DESIGN_TOOL = {
     'done (past tense, like "Brewed"), apply (default true).',
     '"apply" switches to a skin by name, "delete" removes a made one,',
     '"settings" switches rail, shimmer, band, clip, markdown, quiet, charts (booleans), tables ("on", "text" or "off") and icons ("unicode" or "ascii").',
-    'Good skins keep fg and muted readable on a dark background, and surface and zebra one small step off it.',
+    'prose is the reply text Claude writes and follows fg until it is set; set it to tell replies apart from the prompts fg paints.',
+    'Good skins keep fg, prose and muted readable on a dark background, and surface and zebra one small step off it.',
   ].join(' '),
   inputSchema: {
     type: 'object',

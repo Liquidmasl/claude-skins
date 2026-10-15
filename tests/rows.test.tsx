@@ -520,6 +520,19 @@ test('the agent’s design tool saves a skin and it applies at once', async ($, 
   expect(refused.deny).toContain('built-in')
 })
 
+test('a reply takes the prose colour while your prompt keeps fg', async ($, on) => {
+  stubEngine(on)
+
+  await $.tool.call({ tool: 'mcp__skins__design', action: 'save', name: 'voices', base: 'noir', palette: { prose: '#ff8800' } })
+
+  const reply = await $.ui.mount({ ...SITE, surface: 'terminal', component: 'AssistantMessage', requestId: 'r1', props: { text: 'All tests pass.', isFirstOfReply: true } })
+  expect(spanColor((await reply.find({ type: 'Text', text: 'All tests pass.' })) as Found, 'All tests pass.')).toBe('#ff8800')
+  await reply.unmount()
+
+  const prompt = await $.ui.mount({ ...SITE, surface: 'terminal', component: 'UserMessage', requestId: 'm1', props: { text: 'fix the build', origin: { kind: 'composer' }, isExpanded: false } })
+  expect(((await prompt.find({ type: 'Text', text: 'fix the build' })) as Found)?.props.color).toBe(noir.palette.fg)
+})
+
 test('/skin with no argument opens the settings pane', async ($, on) => {
   stubEngine(on)
 

@@ -1,7 +1,7 @@
-import type { Skin } from '../skin'
+import { defineSkin } from '../skin'
 
 // Greys only: the structure of a skin with none of the colour.
-const skin: Skin = {
+const skin = defineSkin({
   name: 'mono',
   label: 'Monochrome',
   palette: {
@@ -23,6 +23,6 @@ const skin: Skin = {
   },
   spinner: ['Working', 'Thinking', 'Reading', 'Writing', 'Checking'],
   done: ['Done', 'Finished', 'Completed'],
-}
+})
 
 export default skin

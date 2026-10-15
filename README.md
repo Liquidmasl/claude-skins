@@ -74,6 +74,12 @@ To keep it installed but go back to Claude Code's own drawing, run `/skin off`.
 `design` tool, so it builds the skin and applies it while you watch. Repainting a built-in skin saves
 it as your own `my-<skin>`. Choices are remembered across sessions.
 
+**Colour slots.** `fg` is body text: your prompts, tables, opened tool rows. `prose` is Claude's reply
+text and follows `fg` until you paint it, so a reply can read apart from your prompts. `muted` carries
+commands, paths and timings, `user` the accent (rail, prompt marker, spinner), `surface` and `zebra`
+the table bands, `ok`, `err` and `warn` a call's outcome, and `read` to `other` each kind of tool. The
+settings pane lists every slot with a swatch.
+
 ## Preview
 
 Drawn by the mod's own card code (`scripts/previews.ts`), not screenshots.

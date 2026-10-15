@@ -1,7 +1,7 @@
-import type { Skin } from '../skin'
+import { defineSkin } from '../skin'
 
 // Black and white, and white and black on a light background.
-const skin: Skin = {
+const skin = defineSkin({
   name: 'noir',
   label: 'Noir',
   palette: {
@@ -40,6 +40,6 @@ const skin: Skin = {
   },
   spinner: ['Thinking', 'Working', 'Composing', 'Considering', 'Weighing'],
   done: ['Done', 'Finished', 'Settled'],
-}
+})
 
 export default skin

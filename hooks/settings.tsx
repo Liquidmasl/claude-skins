@@ -1,9 +1,11 @@
 import type { ElementTable } from 'claude-code'
 
 import type { SkinSlot } from '../types'
+import { splitBlocks } from './blocks'
 import type { ToggleWord } from './command'
 import { SLOTS } from './custom'
 import type { Table } from './markdown'
+import { blockRows } from './prose'
 import { footerRow, groupRow, promptRow, tableRows, toolRow } from './rows'
 import type { Look } from './rows'
 
@@ -48,6 +50,7 @@ function preview(look: Look, width: number) {
   return (
     <Box flexDirection="column" borderStyle="round" borderColor={look.skin.palette.muted} paddingX={1}>
       {promptRow(look, 'add rate limiting to the hub api')}
+      {blockRows(look, splitBlocks('Adding a limiter in front of the routes, then running the tests.', { prose: true }))}
       {toolRow(look, { tool: 'Bash', input: {}, ...done }, 'run', 'pnpm test --filter hub', { ms: 2140 })}
       {toolRow(look, { tool: 'Edit', input: {}, ...done }, 'write', 'apps/hub/src/server.ts', {
         ms: 380,

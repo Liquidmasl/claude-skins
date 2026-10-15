@@ -1,6 +1,6 @@
-import type { Skin } from '../skin'
+import { defineSkin } from '../skin'
 
-const skin: Skin = {
+const skin = defineSkin({
   name: 'dracula',
   label: 'Dracula',
   palette: {
@@ -22,6 +22,6 @@ const skin: Skin = {
   },
   spinner: ['Brooding', 'Haunting', 'Conjuring', 'Lurking', 'Scheming', 'Unliving'],
   done: ['Risen', 'Conjured', 'Bitten', 'Vanquished'],
-}
+})
 
 export default skin
