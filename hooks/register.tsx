@@ -43,6 +43,9 @@ const DESIGN_TOOL_WAIT_MS = 1000
 // A longer prompt keeps Claude Code's own drawing, which folds a big paste.
 const MAX_PROMPT = 4000
 
+// How far `/skin indent` sets tool rows in on the terminal.
+const TOOL_INDENT = 2
+
 // The settings pane's prompt button cycles through these.
 const PROMPT_NEXT: Readonly<Record<Prefs['prompt'], Prefs['prompt']>> = { left: 'right', right: 'plain', plain: 'left' }
 
@@ -864,6 +867,27 @@ reply width: ${lastColumns} columns`
     const look = lookOf(ui, active, e.surface)
 
     return withSettle($, e, galleryPane({ ...look, ...(look.svg === undefined ? {} : { isFirstDraw: await firstDraws($, e, active.prefs) }) }, e.props.bodyColumns))
+  })
+
+  // `/skin indent`: on the terminal every tool row, whoever draws it, and what it opens sit
+  // two columns in, so a reply's prose at the left edge and the turn's tool calls read as
+  // two layers. Registered before the rows' own hooks, so it holds what they draw. An
+  // expanded group stays as Claude Code draws it, as the group's own hook leaves it.
+  on('ui.render', { component: ['ToolUse', 'ToolGroup', 'ToolResult'] }, async ($, e, next) => {
+    const prefs = await read($, prefsAtom)
+    const isExpanded = e.component === 'ToolGroup' && e.props.isExpanded
+
+    if (e.surface !== 'terminal' || !prefs.indent || prefs.skin === 'off' || isExpanded) {
+      return next(e)
+    }
+
+    const { Box } = $.ui.resolve(e)
+
+    return (
+      <Box flexDirection="column" paddingLeft={TOOL_INDENT}>
+        {await next(e)}
+      </Box>
+    )
   })
 
   on('ui.render', { component: 'ToolUse' }, async ($, e, next) => {

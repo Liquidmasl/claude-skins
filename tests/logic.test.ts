@@ -194,6 +194,15 @@ test('stored prefs that are stale or hand-edited fall back to defaults', async (
   expect(parsePrefs({ skin: 'off', rail: false }, NAMES).rail).toBe(false)
 })
 
+test('/skin indent is off until switched on, and prefs stored before it read as off', async () => {
+  expect(DEFAULT_PREFS.indent).toBe(false)
+  expect(parsePrefs({ skin: 'nord', rail: false }, NAMES).indent).toBe(false)
+  expect(parsePrefs({ indent: true }, NAMES).indent).toBe(true)
+  expect(runSkinCommand('indent on', DEFAULT_PREFS, NAMES).prefs.indent).toBe(true)
+  expect(runSkinCommand('indent maybe', DEFAULT_PREFS, NAMES).message).toBe('usage: /skin indent on|off')
+  expect(runSkinCommand('list', { ...DEFAULT_PREFS, indent: true }, NAMES).message).toContain('indent on')
+})
+
 test('tables are on, text or off, and a stored on/off from before still reads', async () => {
   expect(parsePrefs({ tables: true }, NAMES).tables).toBe('on')
   expect(parsePrefs({ tables: false }, NAMES).tables).toBe('off')
