@@ -103,6 +103,7 @@ export function settingsPane(look: Look, ui: PaneUi, model: SettingsModel, actio
       <Box flexDirection="row" flexWrap="wrap" columnGap={2}>
         <Text color={palette.muted}>Look</Text>
         {toggle('rail', 'r', prefs.rail)}
+        {toggle('indent', 'd', prefs.indent)}
         <Button
           key="tables"
           label={`tables ${prefs.tables}`}

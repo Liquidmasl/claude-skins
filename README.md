@@ -65,6 +65,7 @@ To keep it installed but go back to Claude Code's own drawing, run `/skin off`.
 | `/skin calm` · `calm off` | No motion, one line per tool row, read-only output folded, failures always whole. `calm off` puts back what you had |
 | `/skin copy` · `copy code` | Copy Claude's last reply, or just its last code block |
 | `/skin tables on\|text\|off` | `text` draws tables and code as selectable text on the desktop |
+| `/skin indent on\|off` | In the terminal, tool rows and what they open sit two columns in, so Claude's prose at the left edge and the tool calls read as two layers. Off by default |
 | `/skin prompt left\|right\|plain` | In the terminal, which side your prompt's outline sits on, or `plain` for a leading marker instead. The desktop keeps Claude Code's own messages, with copy and rewind |
 | `/skin words claude\|skin` | Whose words the spinner and the turn footer show. `claude` keeps Claude Code's own, whatever the skin says; `skin` (the default) draws the skin's |
 | `/skin gallery` | Every element the skin draws, numbered, to point at |

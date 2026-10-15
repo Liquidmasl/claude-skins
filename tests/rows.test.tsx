@@ -211,6 +211,42 @@ test('tools a skin cannot redraw faithfully keep their own row', async ($, on) =
   expect(await ui.find({ type: 'Text', text: 'stock row' })).toBeDefined()
 })
 
+test('/skin indent sets tool rows, what they open and their results two columns in, on the terminal only', async ($, on) => {
+  stubEngine(on)
+
+  type Root = { props: { paddingLeft?: number } } | undefined
+  const inset = async (site: Parameters<Engine['ui']['mount']>[0]) => {
+    const ui = await $.ui.mount(site)
+    const root = (await ui.find({ type: 'Box' })) as Root
+    const rail = await ui.find({ type: 'Text', text: '┃' })
+    await ui.unmount()
+
+    return { padding: root?.props.paddingLeft, hasRail: rail !== undefined }
+  }
+  const bash = toolUse(call('Bash', { command: 'pnpm test' }))
+  const failed = toolUse(call('Bash', { command: 'pnpm lint' }, { tool_use_id: 'tu9', isErrored: true }))
+  const group = { ...SITE, surface: 'terminal', component: 'ToolGroup', requestId: 'g1', props: { calls: [call('Read', {}), call('Grep', {})], isActive: false, isExpanded: false } } as const
+  const result = { ...SITE, surface: 'terminal', component: 'ToolResult', requestId: 'tr1', props: { tool_use_id: 'tr1', tool: 'Task', output: 'done', isErrored: false } } as const
+
+  expect((await inset(bash)).padding).toBeUndefined()
+
+  expect((await runSkin($, 'indent on')).text).toBeUndefined()
+  expect(await inset(bash)).toEqual({ padding: 2, hasRail: true })
+  // A failed call opens by itself: its answer sits under the row, inside the same inset.
+  expect((await inset(failed)).padding).toBe(2)
+  expect((await inset(group)).padding).toBe(2)
+  expect((await inset({ ...group, props: { ...group.props, isExpanded: true } })).padding).toBeUndefined()
+  // A result Claude Code draws itself is set in too, so the layer stays whole.
+  expect((await inset(result)).padding).toBe(2)
+  expect((await inset(toolUse(call('Bash', { command: 'pnpm test' }), 'desktop'))).padding).toBeUndefined()
+
+  await runSkin($, 'calm')
+  expect(await inset(bash)).toEqual({ padding: 2, hasRail: false })
+
+  await runSkin($, 'off')
+  expect((await inset(bash)).padding).toBeUndefined()
+})
+
 test('a folded group is one node, an expanded one keeps its rows', async ($, on) => {
   stubEngine(on)
 

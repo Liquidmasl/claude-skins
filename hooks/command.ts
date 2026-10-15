@@ -6,6 +6,7 @@ export const DEFAULT_PREFS: Prefs = {
   prompt: 'left',
   words: 'skin',
   rail: true,
+  indent: false,
   tables: 'on',
   shimmer: true,
   band: true,
@@ -29,6 +30,7 @@ export const DEFAULT_PREFS: Prefs = {
 // third state, `text`, so they are switched on their own.
 export const TOGGLES = {
   rail: 'rail',
+  indent: 'indent',
   shimmer: 'shimmer',
   band: 'band',
   countdown: 'countdown',
@@ -96,6 +98,7 @@ export function parsePrefs(raw: unknown, names: readonly string[]): Prefs {
     prompt: saved.prompt === 'right' || saved.prompt === 'plain' ? saved.prompt : 'left',
     words: saved.words === 'claude' ? 'claude' : 'skin',
     rail: flagOr(saved.rail, DEFAULT_PREFS.rail),
+    indent: flagOr(saved.indent, DEFAULT_PREFS.indent),
     tables: tablesOr(saved.tables, DEFAULT_PREFS.tables),
     shimmer: flagOr(saved.shimmer, DEFAULT_PREFS.shimmer),
     band: flagOr(saved.band, DEFAULT_PREFS.band),
@@ -144,6 +147,7 @@ export const listing = (current: Prefs, names: readonly string[]): string =>
       `prompt ${current.prompt}`,
       `words ${current.words}`,
       `rail ${onOff(current.rail)}`,
+      `indent ${onOff(current.indent)}`,
       `tables ${current.tables}`,
       `shimmer ${onOff(current.shimmer)}`,
       `band ${onOff(current.band)}`,

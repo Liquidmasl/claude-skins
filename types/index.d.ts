@@ -28,6 +28,9 @@ export type Prefs = {
   // whatever the skin says; 'skin' draws the skin's.
   words: 'claude' | 'skin'
   rail: boolean
+  // On the terminal, tool rows two columns in, so a reply at the left edge and the turn's
+  // tool calls read as two layers.
+  indent: boolean
   // 'text' keeps the skin but draws tables and code as text the desktop can select.
   tables: 'on' | 'text' | 'off'
   shimmer: boolean
